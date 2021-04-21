@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.ManagerMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Manager">
+    <id column="manager_id" property="managerId" jdbcType="CHAR"/>
+    <result column="manager_password" property="managerPassword" jdbcType="CHAR"/>
+    <result column="manager_name" property="managerName" jdbcType="VARCHAR"/>
+  </resultMap>
+
+    <!--查询多条数据-->
+    <!--resultType是数据返回放到哪个类型中-->
+    <select id="selectAllManager" resultMap="BaseResultMap">
+      SELECT * FROM bob_billsystem.manager
+    </select>
+
+    <select id="selectManagerById" resultMap="BaseResultMap">
+      SELECT * FROM bob_billsystem.manager WHERE manager_id=#{managerId}
+    </select>
+
+    <!--删除-->
+    <delete id="deleteManager">
+      DELETE FROM bob_billsystem.manager Where manager_id=#{managerId}
+    </delete>
+
+    <!--新增-->
+    <insert id="addManager">
+      INSERT INTO bob_billsystem.manager(manager_id,manager_password,manager_name)
+      VALUES (#{managerID},#{managerPassword},#{managerName})
+      <selectKey keyProperty="manager_id" resultType="String" order="AFTER">
+        SELECT @@identity
+      </selectKey>
+    </insert>
+
+</mapper>

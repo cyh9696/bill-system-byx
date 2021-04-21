@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winter.mapper.BillMapper">
+  <resultMap id="BaseResultMap" type="com.winter.model.Bill">
+    <id column="bill_num" jdbcType="VARCHAR" property="billNum" />
+    <result column="payee_account" jdbcType="VARCHAR" property="payeeAccount" />
+    <result column="payee_name" jdbcType="VARCHAR" property="payeeName" />
+    <result column="payee_save" jdbcType="DECIMAL" property="payeeSave" />
+    <result column="payee_loan" jdbcType="DECIMAL" property="payeeLoan" />
+    <result column="payee_loan_ratio" jdbcType="DECIMAL" property="payeeLoanRatio" />
+    <result column="drawer_account" jdbcType="VARCHAR" property="drawerAccount" />
+    <result column="drawer_name" jdbcType="VARCHAR" property="drawerName" />
+    <result column="issuance_date" jdbcType="DATE" property="issuanceDate" />
+    <result column="expiry_date" jdbcType="DATE" property="expiryDate" />
+    <result column="bill_amount" jdbcType="DECIMAL" property="billAmount" />
+    <result column="bill_state" jdbcType="VARCHAR" property="billState" />
+    <result column="batch_num" jdbcType="CHAR" property="batchNum" />
+    <result column="accounting_change" jdbcType="DECIMAL" property="accountingChange" />
+    <result column="accounting_state" jdbcType="VARCHAR" property="accountingState" />
+    <result column="bill_approval_state" jdbcType="VARCHAR" property="billApprovalState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bill_num, payee_account, payee_name, payee_save, payee_loan, payee_loan_ratio, drawer_account, 
+    drawer_name, issuance_date, expiry_date, bill_amount, bill_state, batch_num, accounting_change, 
+    accounting_state, bill_approval_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bill
+    where bill_num = #{billNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bill
+    where bill_num = #{billNum,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.Bill">
+    insert into bill (bill_num, payee_account, payee_name,
+      payee_save, payee_loan, payee_loan_ratio, 
+      drawer_account, drawer_name, issuance_date, 
+      expiry_date, bill_amount, bill_state, 
+      batch_num, accounting_change, accounting_state, 
+      bill_approval_state)
+    values (#{billNum,jdbcType=VARCHAR}, #{payeeAccount,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, 
+      #{payeeSave,jdbcType=DECIMAL}, #{payeeLoan,jdbcType=DECIMAL}, #{payeeLoanRatio,jdbcType=DECIMAL}, 
+      #{drawerAccount,jdbcType=VARCHAR}, #{drawerName,jdbcType=VARCHAR}, #{issuanceDate,jdbcType=DATE}, 
+      #{expiryDate,jdbcType=DATE}, #{billAmount,jdbcType=DECIMAL}, #{billState,jdbcType=VARCHAR}, 
+      #{batchNum,jdbcType=CHAR}, #{accountingChange,jdbcType=DECIMAL}, #{accountingState,jdbcType=VARCHAR}, 
+      #{billApprovalState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.Bill">
+    insert into bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billNum != null">
+        bill_num,
+      </if>
+      <if test="payeeAccount != null">
+        payee_account,
+      </if>
+      <if test="payeeName != null">
+        payee_name,
+      </if>
+      <if test="payeeSave != null">
+        payee_save,
+      </if>
+      <if test="payeeLoan != null">
+        payee_loan,
+      </if>
+      <if test="payeeLoanRatio != null">
+        payee_loan_ratio,
+      </if>
+      <if test="drawerAccount != null">
+        drawer_account,
+      </if>
+      <if test="drawerName != null">
+        drawer_name,
+      </if>
+      <if test="issuanceDate != null">
+        issuance_date,
+      </if>
+      <if test="expiryDate != null">
+        expiry_date,
+      </if>
+      <if test="billAmount != null">
+        bill_amount,
+      </if>
+      <if test="billState != null">
+        bill_state,
+      </if>
+      <if test="batchNum != null">
+        batch_num,
+      </if>
+      <if test="accountingChange != null">
+        accounting_change,
+      </if>
+      <if test="accountingState != null">
+        accounting_state,
+      </if>
+      <if test="billApprovalState != null">
+        bill_approval_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billNum != null">
+        #{billNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeAccount != null">
+        #{payeeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null">
+        #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeSave != null">
+        #{payeeSave,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeLoan != null">
+        #{payeeLoan,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeLoanRatio != null">
+        #{payeeLoanRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="drawerAccount != null">
+        #{drawerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="drawerName != null">
+        #{drawerName,jdbcType=VARCHAR},
+      </if>
+      <if test="issuanceDate != null">
+        #{issuanceDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="billAmount != null">
+        #{billAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billState != null">
+        #{billState,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNum != null">
+        #{batchNum,jdbcType=CHAR},
+      </if>
+      <if test="accountingChange != null">
+        #{accountingChange,jdbcType=DECIMAL},
+      </if>
+      <if test="accountingState != null">
+        #{accountingState,jdbcType=VARCHAR},
+      </if>
+      <if test="billApprovalState != null">
+        #{billApprovalState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.Bill">
+    update bill
+    <set>
+      <if test="payeeAccount != null">
+        payee_account = #{payeeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null">
+        payee_name = #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeSave != null">
+        payee_save = #{payeeSave,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeLoan != null">
+        payee_loan = #{payeeLoan,jdbcType=DECIMAL},
+      </if>
+      <if test="payeeLoanRatio != null">
+        payee_loan_ratio = #{payeeLoanRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="drawerAccount != null">
+        drawer_account = #{drawerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="drawerName != null">
+        drawer_name = #{drawerName,jdbcType=VARCHAR},
+      </if>
+      <if test="issuanceDate != null">
+        issuance_date = #{issuanceDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        expiry_date = #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="billAmount != null">
+        bill_amount = #{billAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billState != null">
+        bill_state = #{billState,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNum != null">
+        batch_num = #{batchNum,jdbcType=CHAR},
+      </if>
+      <if test="accountingChange != null">
+        accounting_change = #{accountingChange,jdbcType=DECIMAL},
+      </if>
+      <if test="accountingState != null">
+        accounting_state = #{accountingState,jdbcType=VARCHAR},
+      </if>
+      <if test="billApprovalState != null">
+        bill_approval_state = #{billApprovalState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bill_num = #{billNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.Bill">
+    update bill
+    set payee_account = #{payeeAccount,jdbcType=VARCHAR},
+      payee_name = #{payeeName,jdbcType=VARCHAR},
+      payee_save = #{payeeSave,jdbcType=DECIMAL},
+      payee_loan = #{payeeLoan,jdbcType=DECIMAL},
+      payee_loan_ratio = #{payeeLoanRatio,jdbcType=DECIMAL},
+      drawer_account = #{drawerAccount,jdbcType=VARCHAR},
+      drawer_name = #{drawerName,jdbcType=VARCHAR},
+      issuance_date = #{issuanceDate,jdbcType=DATE},
+      expiry_date = #{expiryDate,jdbcType=DATE},
+      bill_amount = #{billAmount,jdbcType=DECIMAL},
+      bill_state = #{billState,jdbcType=VARCHAR},
+      batch_num = #{batchNum,jdbcType=CHAR},
+      accounting_change = #{accountingChange,jdbcType=DECIMAL},
+      accounting_state = #{accountingState,jdbcType=VARCHAR},
+      bill_approval_state = #{billApprovalState,jdbcType=VARCHAR}
+    where bill_num = #{billNum,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from bill
+    order by bill_num DESC
+  </select>
+</mapper>
