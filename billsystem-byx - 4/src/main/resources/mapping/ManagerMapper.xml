@@ -28,12 +28,9 @@
     </delete>
 
     <!--新增-->
-    <insert id="addManager">
+    <insert id="addManager" parameterType="com.winter.model.Manager">
       INSERT INTO bob_billsystem.manager(manager_id,manager_password,manager_name)
-      VALUES (#{managerID},#{managerPassword},#{managerName})
-      <selectKey keyProperty="manager_id" resultType="String" order="AFTER">
-        SELECT @@identity
-      </selectKey>
+      VALUES (#{managerId, jdbcType=CHAR},#{managerPassword, jdbcType=CHAR},#{managerName, jdbcType=VARCHAR})
     </insert>
 
 </mapper>

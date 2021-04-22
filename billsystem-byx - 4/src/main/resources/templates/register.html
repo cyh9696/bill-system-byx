@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>注册-汇票贴现业务管理系统</title>
+
+
+</head>
+<body align="center" >
+
+    <h3>北京银行票据系统</h3>
+            欢迎注册
+<br>
+    <form action="/manager/addmanager" method="POST">
+        <p>
+            <label>姓名</label>
+            <input type="text" name="managerName">
+        </p>
+        <p>
+            <label>工号</label>
+            <input type="text" name="managerId" />
+        </p>
+        <p>
+            <label>密码</label>
+            <input type="password" name="managerPassword" />
+        </p>
+        <p class="submit">
+            <input type="submit" value="注册" />
+        </p>
+    </form>
+
+    <div class="reg-bar">
+        <a class="reg" href="/manager/login">已有账号？直接登录</a>
+    </div>
+</div>
+
+</body>
+</html>

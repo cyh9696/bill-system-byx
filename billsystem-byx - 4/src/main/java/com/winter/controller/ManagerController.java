@@ -39,6 +39,27 @@ public class ManagerController {
     private ModelAndView mv2 = new ModelAndView();
 
     /**
+     * 用户注册
+     * @return
+     */
+    @RequestMapping(value = "/register", produces = {"application/json;charset=UTF-8"})
+    public String register() {
+        return "register";
+    }
+
+    /**
+     * 添加用户
+     * @param manager
+     * @return
+     */
+    //@ResponseBody
+    @RequestMapping(value = "/addmanager", produces = {"application/json;charset=UTF-8"})
+    public String addManager(Manager manager) {
+        managerService.addManager(manager);
+        return "redirect:/manager/login";
+    }
+
+    /**
      * 用户登录
      * @return
      */
@@ -135,7 +156,7 @@ public class ManagerController {
     }
 
     /**
-     * 经理 撤销 bill审批状态
+     * 经理 撤销
      * @param bnum
      * @return 更新数据后，重新加载manager页
      */

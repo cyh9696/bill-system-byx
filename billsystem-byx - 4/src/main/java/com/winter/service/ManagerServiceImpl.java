@@ -17,4 +17,9 @@ public class ManagerServiceImpl implements ManagerService {
         return managerMapper.selectManagerById(managerId);
     }
 
+    @Override
+    public int addManager(Manager manager) {
+        return managerMapper.addManager(manager);
+    }
+
 }
