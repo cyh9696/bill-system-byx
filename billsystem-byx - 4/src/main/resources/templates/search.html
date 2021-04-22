@@ -21,8 +21,6 @@
 </head>
 <body align="center">
 <a style="float: left" href="/manager/manager">返回经理首页</a>
-<br>
-<a style="float: left" href="javascript:" onclick="history.back();">返回上一页</a>
 <h2>北京银行票据系统</h2>
 <p th:text="'欢迎，' + ${name}+'经理'"></p>
 <br>
@@ -34,9 +32,6 @@
         <td>票据编号</td>
         <td>收款账户</td>
         <td>收款单位名称</td>
-        <td>收款账户存款</td>
-        <td>收款账户贷款</td>
-        <td>单户比</td>
         <td>付款账户</td>
         <td>付款单位名称</td>
         <td>出票日期</td>
@@ -44,9 +39,9 @@
         <td>出票金额</td>
         <td>票据状态</td>
         <td>票据贴现审批状态</td>
-        <td>批次号</td>
-        <td>记账变化</td>
-        <td>记账状态</td>
+        <td>操作</td>
+        <td>撤销审批状态</td>
+        <td>查看详细信息</td>
     </tr>
 
     <tbody>
@@ -54,9 +49,6 @@
         <td th:text="${bill.billNum}"></td>
         <td th:text="${bill.payeeAccount}"></td>
         <td th:text="${bill.payeeName}"></td>
-        <td th:text="${bill.payeeSave}"></td>
-        <td th:text="${bill.payeeLoan}"></td>
-        <td th:text="${bill.payeeLoanRatio}"></td>
         <td th:text="${bill.drawerAccount}"></td>
         <td th:text="${bill.drawerName}"></td>
         <td th:text="${#dates.format(bill.issuanceDate, 'yyyy-MM-dd')}"></td>
@@ -64,9 +56,9 @@
         <td th:text="${bill.billAmount}"></td>
         <td th:text="${bill.billState}"></td>
         <td th:text="${bill.billApprovalState}"></td>
-        <td th:text="${bill.batchNum}"></td>
-        <td th:text="${bill.accountingChange}"></td>
-        <td th:text="${bill.accountingState}"></td>
+        <td><a th:href="@{'/manager/seshenpi?billNum='+${bill.billNum}}">审批</a>
+        <td><a th:href="@{'/manager/serepeal?billNum='+${bill.billNum}}">撤销</a>
+        <td><a th:href="@{'/manager/detail?billNum='+${bill.billNum}}">查看</a>
         </td>
 
     </tr>

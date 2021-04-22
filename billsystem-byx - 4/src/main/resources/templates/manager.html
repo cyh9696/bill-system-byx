@@ -26,6 +26,20 @@
 <p th:text="'欢迎，' + ${name}+'经理'"></p>
 
 <br>
+
+<h3>搜索表单</h3>
+<form action="/manager/search" method="POST">
+
+    <p>
+        <label>请输入票据编号</label>
+        <input type="number" name="billNum" />
+    </p>
+    <p class="submit">
+        <input type="submit" value="搜索" />
+    </p>
+</form>
+
+<br>
 <h3>已发布的票据</h3>
 <table align="center" width="960" border="1" bgcolor="black" cellpadding="1" cellspacing="1">
     <tr align="center" bgcolor="#7fffd4" height="50">

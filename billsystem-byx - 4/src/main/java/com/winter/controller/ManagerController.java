@@ -37,6 +37,8 @@ public class ManagerController {
     private Bill bill;
     private ModelAndView mv = new ModelAndView();
     private ModelAndView mv2 = new ModelAndView();
+    private ModelAndView mv3 = new ModelAndView();
+    private ModelAndView mv4 = new ModelAndView();
 
     /**
      * 用户注册
@@ -77,7 +79,7 @@ public class ManagerController {
      */
     @RequestMapping(value = "/verify", produces = {"application/json;charset=UTF-8"})
     public String selectManager(@RequestParam("managerId") String managerId,
-                                    @RequestParam("managerPassword") String managerPassword) {
+                                @RequestParam("managerPassword") String managerPassword) {
         manager = managerService.selectManager(managerId);
         System.out.println(manager.getManagerPassword().equals(managerPassword));
         if (manager.getManagerPassword().equals(managerPassword)) {
@@ -114,20 +116,6 @@ public class ManagerController {
         BigDecimal lr = bill.getPayeeLoanRatio();
         SimpleDateFormat formatyyyy = new SimpleDateFormat("yyyyMMdd");
         bill.setBillState("已提交审批");
-//        if( edate.after(now) && (lr.compareTo(new BigDecimal("0.10"))<0) ){
-//            bill.setBillState("已审批");
-//            bill.setBillApprovalState("通过审批");
-//            //定制化设计batchNum: BN + billNum + now
-//            bill.setBatchNum("BN" + bill.getBillNum() + formatyyyy.format(now));
-//            //根据billNum（bnum）使用updateBill更新整条
-//            billService.updateBill(bill);
-//            return "redirect:manager";
-//        }
-//        bill.setBillState("已审批");
-//        bill.setBillApprovalState("未通过审批");
-//        bill.setBatchNum("BN" + bill.getBillNum() + formatyyyy.format(now));
-//        billService.updateBill(bill);
-//        return "redirect:manager";
         if(lr.compareTo(new BigDecimal("0.10"))<0){
             bill.setBillState("已审批");
             bill.setBillApprovalState("通过风险校验");
@@ -160,7 +148,6 @@ public class ManagerController {
      * @param bnum
      * @return 更新数据后，重新加载manager页
      */
-//    TODO
     @RequestMapping(value = "/repeal", produces = {"application/json;charset=UTF-8"})
     public String repeal(@RequestParam("billNum") String bnum) {
         bill = billService.selectByPrimaryKey(bnum);
@@ -178,13 +165,94 @@ public class ManagerController {
      */
     @RequestMapping(value = "/detail", produces = {"application/json;charset=UTF-8"})
     public ModelAndView detail(@RequestParam("billNum") String bnum) {
-        Bill bl;
-        bl = billService.selectByPrimaryKey(bnum);
+//        Bill bl;
+        bill = billService.selectByPrimaryKey(bnum);
         mv2.setViewName("detail");
         mv2.addObject("name",manager.getManagerName());
-        mv2.addObject("billnum",bl.getBillNum());
-        mv2.addObject("bill", bl);
+        mv2.addObject("billnum",bill.getBillNum());
+        mv2.addObject("bill", bill);
         return mv2;
+    }
+
+    /**
+     * 经理通过搜索框，搜索票据号查看单个票据详细
+     * @para bnum
+     * @return detail页
+     */
+    @RequestMapping(value = "/search", produces = {"application/json;charset=UTF-8"})
+    public ModelAndView search(@RequestParam("billNum") String bnum) {
+//        Bill bl;
+        bill = billService.selectByPrimaryKey(bnum);
+        mv3.setViewName("search");
+        mv3.addObject("name",manager.getManagerName());
+        mv3.addObject("billnum",bnum);
+        mv3.addObject("bill", bill);
+        return mv3;
+    }
+
+    @RequestMapping(value = "/ssearch", produces = {"application/json;charset=UTF-8"})
+    public ModelAndView ssearch() {
+        mv4.setViewName("ssearch");
+        mv4.addObject("name",manager.getManagerName());
+        mv4.addObject("billnum",bill.getBillNum());
+        mv4.addObject("bill", bill);
+        return mv4;
+    }
+
+
+    /**
+     * search页 *审批* single-bill
+     * @param bnum
+     * @return 更新数据后，重新加载search页
+     */
+    @RequestMapping(value = "/seshenpi", produces = {"application/json;charset=UTF-8"})
+    public String seshenpi(@RequestParam("billNum") String bnum) {
+        bill = billService.selectByPrimaryKey(bnum);
+        Date edate = bill.getExpiryDate();
+        Date now = new Date(System.currentTimeMillis()); //获取当前时间
+        BigDecimal lr = bill.getPayeeLoanRatio();
+        SimpleDateFormat formatyyyy = new SimpleDateFormat("yyyyMMdd");
+        bill.setBillState("已提交审批");
+        if(lr.compareTo(new BigDecimal("0.10"))<0){
+            bill.setBillState("已审批");
+            bill.setBillApprovalState("通过风险校验");
+            if(edate.after(now)){
+                bill.setBillState("已审批");
+                bill.setBillApprovalState("通过流程审批");
+                bill.setBatchNum("BN" + bill.getBillNum() + formatyyyy.format(now));
+                billService.updateBill(bill);
+                return "redirect:ssearch";
+            }
+            else{
+                bill.setBillState("已审批");
+                bill.setBillApprovalState("过期！");
+                bill.setBatchNum("BN" + bill.getBillNum() + formatyyyy.format(now));
+                billService.updateBill(bill);
+                return "redirect:ssearch";
+            }
+        }
+        else{
+            bill.setBillState("已审批");
+            bill.setBillApprovalState("有风险！");
+            bill.setBatchNum("BN" + bill.getBillNum() + formatyyyy.format(now));
+            billService.updateBill(bill);
+            return "redirect:ssearch";
+        }
+    }
+
+    /**
+     * single页 撤销
+     * @param bnum
+     * @return 更新数据后，重新加载search页
+     */
+    @RequestMapping(value = "/serepeal", produces = {"application/json;charset=UTF-8"})
+    public String serepeal(@RequestParam("billNum") String bnum) {
+        bill = billService.selectByPrimaryKey(bnum);
+        bill.setBillState("未提交审批");
+        bill.setBillApprovalState("");
+        //关于batchNum: 只要审批了，无论是否撤回都会存在
+        billService.updateBill(bill);
+        return "redirect:ssearch";
     }
 
 }
