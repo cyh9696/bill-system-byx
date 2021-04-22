@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>贴现业务系统(经理版）</title>
+
+    <style type="text/css">
+        table {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        table thead th {
+            border: 1px solid black;
+        }
+
+        table tbody td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body align="center">
+<a style="float: left" href="/manager/manager">返回</a>
+<h2>北京银行票据系统</h2>
+<p th:text="'欢迎，' + ${name}+'经理'"></p>
+<br>
+<h3><p th:text="'票据' + ${billnum}+ '详细信息'"></p></h3>
+
+<table align="center" width="960" border="1"
+       bgcolor="black" cellpadding="1" cellspacing="1">
+    <tr align="center" bgcolor="#7fffd4" height="50">
+        <td>票据编号</td>
+        <td>收款账户</td>
+        <td>收款单位名称</td>
+        <td>收款账户存款</td>
+        <td>收款账户贷款</td>
+        <td>单户比</td>
+        <td>付款账户</td>
+        <td>付款单位名称</td>
+        <td>出票日期</td>
+        <td>到期日期</td>
+        <td>出票金额</td>
+        <td>票据状态</td>
+        <td>票据贴现审批状态</td>
+        <td>批次号</td>
+        <td>记账变化</td>
+        <td>记账状态</td>
+    </tr>
+
+    <tbody>
+    <tr th:style="'background-color:'+'#F2F2F2'">
+        <td th:text="${bill.billNum}"></td>
+        <td th:text="${bill.payeeAccount}"></td>
+        <td th:text="${bill.payeeName}"></td>
+        <td th:text="${bill.payeeSave}"></td>
+        <td th:text="${bill.payeeLoan}"></td>
+        <td th:text="${bill.payeeLoanRatio}"></td>
+        <td th:text="${bill.drawerAccount}"></td>
+        <td th:text="${bill.drawerName}"></td>
+        <td th:text="${#dates.format(bill.issuanceDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#dates.format(bill.expiryDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${bill.billAmount}"></td>
+        <td th:text="${bill.billState}"></td>
+        <td th:text="${bill.billApprovalState}"></td>
+        <td th:text="${bill.batchNum}"></td>
+        <td th:text="${bill.accountingChange}"></td>
+        <td th:text="${bill.accountingState}"></td>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

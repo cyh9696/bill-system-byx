@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>贴现业务系统(经理版）</title>
+
+    <style type="text/css">
+        table {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        table thead th {
+            border: 1px solid black;
+        }
+
+        table tbody td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="src/main/resources/templates/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body align="center">
+<a style="float: left" href="/manager/login">注销</a>
+<h2>北京银行票据系统</h2>
+<p th:text="'欢迎，' + ${name}+'经理'"></p>
+
+<br>
+<h3>已发布的票据</h3>
+<table align="center" width="960" border="1"
+       bgcolor="black" cellpadding="1" cellspacing="1">
+    <tr align="center" bgcolor="#7fffd4" height="50">
+        <td>票据编号</td>
+        <td>收款账户</td>
+        <td>收款单位名称</td>
+        <td>付款账户</td>
+        <td>付款单位名称</td>
+        <td>出票日期</td>
+        <td>到期日期</td>
+        <td>出票金额</td>
+        <td>票据状态</td>
+        <td>票据贴现审批状态</td>
+        <td>操作</td>
+        <td>撤销审批状态</td>
+        <td>查看详细信息</td>
+    </tr>
+
+    <tbody>
+    <tr th:each="entries:${list}" th:style="'background-color:'+'#F2F2F2'">
+        <td th:text="${entries.billNum}"></td>
+        <td th:text="${entries.payeeAccount}"></td>
+        <td th:text="${entries.payeeName}"></td>
+        <td th:text="${entries.drawerAccount}"></td>
+        <td th:text="${entries.drawerName}"></td>
+        <!--        <td th:text="${entries.issuanceDate}"></td>-->
+        <td th:text="${#dates.format(entries.issuanceDate, 'yyyy-MM-dd')}"></td>
+        <!--        <td th:text="${entries.expiryDate}"></td>-->
+        <td th:text="${#dates.format(entries.expiryDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${entries.billAmount}"></td>
+        <td th:text="${entries.billState}"></td>
+        <td th:text="${entries.billApprovalState}"></td>
+        <td><a th:href="@{'/manager/shenpi?billNum='+${entries['billNum']}}">审批</a>
+        <td><a th:href="@{'/manager/repeal?billNum='+${entries['billNum']}}">撤销</a>
+        <td><a th:href="@{'/manager/detail?billNum='+${entries['billNum']}}">查看</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
